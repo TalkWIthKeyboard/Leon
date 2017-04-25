@@ -43,7 +43,6 @@ pub.tokenHandler = () => {
 
   return (req, res, next) => {
     let token = req.query['token'] || false;
-    console.log(checkList(req));
     token || checkList(req)
       ? next()
       : next({status: 400, msg: 'No token!'})
