@@ -1,0 +1,11 @@
+//
+   Created by CoderSong on 17/4/26.
+
+extends layout
+
+block content
+  script(src="/javascripts/echarts.common.min.js")
+
+  #main(style='width:400px; height:400px;', data-token=`${token}`)
+
+  script(src="/javascripts/charts/healthyChart.js")

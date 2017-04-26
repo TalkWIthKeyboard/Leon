@@ -14,11 +14,29 @@ let UserSchema = new mongoose.Schema({
   password: String,
   // 角色
   role: String,
+  // 健康
+  healthy: {
+    // 步数
+    step: [{
+      number: Number,
+      date: Date
+    }],
+    // 心跳
+    heartbeat: [{
+      number: Number,
+      date: Date
+    }]
+  },
   // 清单
   list: [{
-    type : mongoose.Schema.ObjectId,
-    ref : 'Event'
-  }]
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'event'
+  }],
+  // 所属家庭
+  home: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'home'
+  }
 });
 
 conf.addFn(UserSchema, [

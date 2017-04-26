@@ -7,12 +7,12 @@ let conf = require('./conf');
 
 let EventSchema = new mongoose.Schema({
   setter: {
-    type: mongoose.Schema.ObjectId,
-    rel: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
   },
   getter: {
-    type: mongoose.Schema.ObjectId,
-    rel: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
   },
   content: String,
   remindTime: Date,

@@ -5,7 +5,10 @@
 let pub = {};
 let _ = require('underscore');
 
-// 通用属性
+/**
+ * 通用属性
+ * @type {{meta: {createAt: {type: Date, default: number}, updateAt: {type: Date, default: number}}}}
+ */
 pub.globalAtr = {
   // 时间参数
   meta: {
@@ -20,16 +23,26 @@ pub.globalAtr = {
   }
 };
 
-
-// 通用静态方法
+/**
+ * 通用静态方法
+ * @type {{findAllByPage: staticsOp.findAllByPage, findAllCount: staticsOp.findAllCount, checkIsExist: staticsOp.checkIsExist, findByCondition: staticsOp.findByCondition, deleteById: staticsOp.deleteById}}
+ */
 let staticsOp = {
-  findAllByPage: function (thisPage, pageSize, cb) {
-    return this
-      .find({})
-      .skip((thisPage - 1) * pageSize)
-      .limit(pageSize)
-      .sort('meta.createAt')
-      .exec(cb);
+  findAllByPage: function (thisPage, pageSize, populateKey, cb) {
+    return ! populateKey
+      ? this
+        .find({})
+        .skip((thisPage - 1) * pageSize)
+        .limit(pageSize)
+        .sort('meta.updateAt')
+        .exec(cb)
+      : this
+        .find({})
+        .populate(populateKey)
+        .skip((thisPage - 1) * pageSize)
+        .limit(pageSize)
+        .sort('meta.updateAt')
+        .exec(cb);
   },
 
   findAllCount: function (cb) {
@@ -54,12 +67,17 @@ let staticsOp = {
       .exec(cb);
   },
 
-  findByCondition: function (key, value, cb) {
+  findByCondition: function (key, value, populateKey, cb) {
     let obj = {};
     obj[key] = value;
-    return this
-      .findOne(obj)
-      .exec(cb);
+    return ! populateKey
+      ? this
+        .findOne(obj)
+        .exec(cb)
+      : this
+        .findOne(obj)
+        .populate(populateKey)
+        .exec(cb);
   },
 
   deleteById: function (id, cb) {
@@ -69,7 +87,10 @@ let staticsOp = {
   },
 };
 
-// 通用钩子方法（分pre与post）
+/**
+ * 通用钩子方法（分pre与post）
+ * @type {{pre: {updateDate: ((p1:*))}, post: {}}}
+ */
 pub.hooksOp = {
   pre: {
     updateDate: (next) => {
@@ -79,9 +100,18 @@ pub.hooksOp = {
       next();
     }
   },
-  post: {
+  post: {}
+};
 
-  }
+/**
+ * 表的populate对象对应
+ * @type {{Event: string, Home: string, Token: string, User: string}}
+ */
+pub.populateObj = {
+  Event: 'setter getter',
+  Home: 'family familyWish',
+  Token: 'user',
+  User: 'list'
 };
 
 // 自动添加方法

@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const router = require('./routes/api-router');
+const apiRouter = require('./routes/api-router');
+const h5Router = require('./routes/h5-router');
 const middle = require('./middle/fnMiddle');
 const mongoose = require('mongoose');
 let app = express();
@@ -20,9 +21,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use(middle.tokenHandler());
-app.use('/api', router);
+// app.use(middle.tokenHandler());
+app.use('/api', apiRouter);
+app.use('/h5', h5Router);
 app.use(middle.errorHandler());
 
 

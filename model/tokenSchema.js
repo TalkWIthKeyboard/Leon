@@ -7,8 +7,8 @@ let conf = require('./conf');
 
 let TokenSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.ObjectId,
-    rel: 'User'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
   },
   token: String
 });

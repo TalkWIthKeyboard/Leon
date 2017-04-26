@@ -6,20 +6,17 @@ let mongoose = require('mongoose');
 let conf = require('./conf');
 
 let HomeSchema = new mongoose.Schema({
+  // 家庭名字
+  name: String,
   // 家庭成员
   family: [{
-    type : mongoose.Schema.ObjectId,
-    ref : 'User'
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'user'
   }],
   // 家庭愿望单
   familyWish: [{
-    type : mongoose.Schema.ObjectId,
-    ref : 'Wish'
-  }],
-  // 家庭健康表
-  familyHealthy: [{
-    type : mongoose.Schema.ObjectId,
-    ref : 'Healthy'
+    type : mongoose.Schema.Types.ObjectId,
+    ref : 'wish'
   }]
 });
 

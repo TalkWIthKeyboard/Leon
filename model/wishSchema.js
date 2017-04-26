@@ -9,8 +9,8 @@ let WishSchema = new mongoose.Schema({
   // 愿望贡献
   list: [{
     contributor: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user'
     },
     contribution: Number,
     time: Date

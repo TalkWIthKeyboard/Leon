@@ -31,7 +31,6 @@ function createModelList() {
         modelList[modelName] = mongoose.model(modelName, _schema);
       }
     });
-
 }
 
 createModelList();

@@ -28,8 +28,11 @@ pub.tokenHandler = () => {
   let whiteList = [{
     url: '/api/login',
     type: 'POST'
-  },{
+  }, {
     url: '/api/user',
+    type: 'POST'
+  }, {
+    url: '/api/healthy',
     type: 'POST'
   }];
 
@@ -45,8 +48,8 @@ pub.tokenHandler = () => {
     let token = req.query['token'] || false;
     token || checkList(req)
       ? next()
-      : next({status: 400, msg: 'No token!'})
-  }
+      : next({status: 400, msg: 'No token!'});
+  };
 };
 
 module.exports = pub;

@@ -4,9 +4,9 @@
 
 let pub = {};
 
-pub.findAllByPagePromise = (model, thisPage) => {
+pub.findAllByPagePromise = (model, thisPage, pageSize, populateKey) => {
   return new Promise((resolve, reject) => {
-    model.findAllByPage(thisPage, (err, res) => {
+    model.findAllByPage(thisPage, pageSize, populateKey, (err, res) => {
       err ? reject(err) : resolve(res);
     });
   });
@@ -30,9 +30,9 @@ pub.checkIsExistPromise = (model, key, value) => {
 };
 
 
-pub.findByConditionPromise = (model, key, value) => {
+pub.findByConditionPromise = (model, key, value, populateKey) => {
   return new Promise((resolve, reject) => {
-    model.findByCondition(key, value, (err, res) => {
+    model.findByCondition(key, value, populateKey, (err, res) => {
       err ? reject(err) : resolve(res);
     });
   });
