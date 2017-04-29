@@ -23,7 +23,7 @@ var colors = ['#5793f3'];
 stepOption = {
   color: colors,
   title: {
-    text: '步数（每小时）'
+    text: '步数（/h）'
   },
   tooltip: {
     trigger: 'none',
@@ -78,18 +78,12 @@ stepOption = {
 
 heartbeatOption = {
   title: {
-    text: '心跳次数（每分钟）',
+    text: '心跳次数（/min）',
   },
   tooltip: {
     trigger: 'axis',
     axisPointer: {
       type: 'cross'
-    }
-  },
-  toolbox: {
-    show: true,
-    feature: {
-      saveAsImage: {}
     }
   },
   xAxis: {
