@@ -10,7 +10,7 @@ let promise = require('./../model/promise');
 let response = require('./../builder/responseBuilder');
 let model = require('./../model/create');
 let _ = require('underscore');
-let moment = require(moment);
+// let moment = require(moment);
 
 // 登录
 router.post('/login', (req, res, next) => {
@@ -61,7 +61,6 @@ router.get('/healthy', (req, res, next) => {
             homeHealthy.sort((a, b) => {
               return a.date === b.date ? 0 : a.num > b.num ? - 1 : 1;
             });
-            console.log(homeHealthy);
             response.resSuccessBuilder(res, homeHealthy);
           });
       else
