@@ -128,7 +128,7 @@ stepOption = {
 
 heartbeatOption = {
   title: {
-    text: '心跳次数',
+    text: '心跳',
   },
   tooltip: {
     trigger: 'axis',
