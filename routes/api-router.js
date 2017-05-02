@@ -10,6 +10,7 @@ let promise = require('./../model/promise');
 let response = require('./../builder/responseBuilder');
 let model = require('./../model/create');
 let _ = require('underscore');
+let echart = require('./../builder/echartBuilder');
 // let moment = require(moment);
 
 // 登录
@@ -53,15 +54,45 @@ router.get('/healthy', (req, res, next) => {
             let homeHealthy = [];
             _.each(_home.family, people => {
               homeHealthy.push({
-                username:people.username,
+                username: people.username,
                 role: people.role,
-                healthy:people.healthy
+                healthy: people.healthy
               });
             });
-            homeHealthy.sort((a, b) => {
-              return a.date === b.date ? 0 : a.num > b.num ? - 1 : 1;
-            });
-            response.resSuccessBuilder(res, homeHealthy);
+            homeHealthy.sort((a, b) => a.date < b.date);
+            response.resSuccessBuilder(res,
+              {
+                healthy: homeHealthy,
+                stepChart: echart.lineChart(
+                  ['0:00', '2:00', '4:00', '6:00', '8:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                  [
+                    {'爸爸': [0, 0, 0, 100, 400, 300, 175, 500, 1400, 1000, 600, 100]},
+                    {'妈妈': [0, 0, 0, 120, 500, 600, 700, 800, 1000, 1200, 200, 100]},
+                    {'儿子': [0, 0, 0, 0, 0, 0, 600, 1000, 2000, 2500, 400, 0]},
+                  ],
+                  ['爸爸的步数', '妈妈的步数', '儿子的步数'],
+                  '步数'
+                ),
+                heartbeatChart: echart.lineChart(
+                  ['00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30', '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15', '17:30', '18:45', '20:00', '21:15', '22:30', '23:45'],
+                  [
+                    {'爸爸': [60, 81, 89, 75, 66, 80, 82, 71, 72, 88, 91, 97, 80, 68, 67, 78, 98, 68, 100, 90]},
+                    {'妈妈': [76, 83, 75, 66, 100, 81, 95, 65, 95, 90, 65, 88, 67, 91, 88, 71, 84, 69, 75, 88]},
+                    {'儿子': [80, 77, 62, 80, 81, 73, 65, 88, 67, 98, 68, 82, 95, 96, 68, 68, 84, 89, 90, 94]}
+                  ],
+                  ['爸爸心跳数', '妈妈心跳数', '儿子心跳数'],
+                  '心跳数'
+                ),
+                wishChart: echart.peiChart(
+                  [{value: 335, name: '直接访问'},
+                    {value: 310, name: '邮件营销'},
+                    {value: 274, name: '联盟广告'},
+                    {value: 235, name: '视频广告'},
+                    {value: 400, name: '搜索引擎'}],
+                  'Customized Pie',
+                  '访问来源'
+                )
+              });
           });
       else
         next({status: 400, msg: 'You have no home!'});

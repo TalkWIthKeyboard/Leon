@@ -34,7 +34,6 @@ pub.getUserByTokenPromise = (req) => {
  * @param healthy 原始健康数据
  */
 pub.healthyQueue = (healthyList, healthy = []) => {
-  console.log(healthyList);
   const num = 48;
   let len = healthyList.length + healthy.length;
   healthyList.sort((a, b) => {
@@ -43,7 +42,7 @@ pub.healthyQueue = (healthyList, healthy = []) => {
   healthyList.push(healthy);
   healthyList = _.flatten(healthyList, true);
   // 保持队列内的元素个数
-  if (len > num) healthList = _.initial(healthList, len - num);
+  if (len > num) healthyList = _.initial(healthyList, len - num);
   return healthyList;
 };
 

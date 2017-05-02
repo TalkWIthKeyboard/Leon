@@ -22,7 +22,7 @@ let openUrl = 'opavm058s.bkt.clouddn.com';
 pub.qiniuUploadFile = (key, scb, fcb) => {
   // 策略函数
   function uptoken() {
-    let putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
+    let putPolicy = new qiniu.rs.PutPolicy(bucket + ':' + key);
     return putPolicy.token();
   }
 
@@ -35,7 +35,7 @@ pub.qiniuUploadFile = (key, scb, fcb) => {
   function uploadFile(uptoken, _key, localFile) {
     let extra = new qiniu.io.PutExtra();
     qiniu.io.putFile(uptoken, _key, localFile, extra,
-      (err, ret) => !err ? scb(`http://${openUrl}/${key}`) : fcb(err));
+      (err, ret) => ! err ? scb(`http://${openUrl}/${key}`) : fcb(err));
   }
   uploadFile(token, key, filePath);
 };
@@ -47,7 +47,7 @@ pub.qiniuUploadFile = (key, scb, fcb) => {
  */
 pub.qiniuDownloadFile = (key) => {
   //构建私有空间的链接
-  url = `http://${openUrl}/${key}?attr=`;
+  let url = `http://${openUrl}/${key}?attr=`;
   let policy = new qiniu.rs.GetPolicy();
   //生成下载链接url
   let downloadUrl = policy.makeRequest(url);
@@ -65,7 +65,7 @@ pub.qiniuDownloadFile = (key) => {
 pub.qiniuDeleteFile = (key, scb, fcb) => {
   let client = new qiniu.rs.Client();
   client.remove(bucket, key, function(err, ret) {
-    !err ? scb() : fcb(err);
+    ! err ? scb() : fcb(err);
   });
 };
 
