@@ -53,13 +53,12 @@ router.get('/healthy', (req, res, next) => {
           .then((_home) => {
             let homeHealthy = [];
             _.each(_home.family, people => {
+              people.healthy.heartbeat.sort((a, b) => a.date - b.date);
               homeHealthy.push({
-                username: people.username,
                 role: people.role,
                 healthy: people.healthy
               });
             });
-            homeHealthy.sort((a, b) => a.date < b.date);
             response.resSuccessBuilder(res,
               {
                 healthy: homeHealthy,

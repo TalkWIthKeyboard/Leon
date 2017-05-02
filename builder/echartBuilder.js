@@ -76,7 +76,7 @@ pub.peiChart = (data, chartName, dataName) => {
     // 标题
     title: {
       text: chartName,
-      left: 'center',
+      left: 'left',
       top: 15,
       textStyle: {
         color: '#010101'
