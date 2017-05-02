@@ -11,7 +11,7 @@ let response = require('./../builder/responseBuilder');
 let model = require('./../model/create');
 let _ = require('underscore');
 let echart = require('./../builder/echartBuilder');
-// let moment = require(moment);
+let file = require('./../server/fileServer');
 
 // 登录
 router.post('/login', (req, res, next) => {
@@ -100,6 +100,17 @@ router.get('/healthy', (req, res, next) => {
     .catch((err) => {
       next(err);
     });
+});
+
+/**
+ * 上传API测试
+ */
+router.post('/file', (req, res, next) => {
+  file.uploadFile(req, (url) => {
+    console.log('上传成功：' + url);
+  }, (err) => {
+    next(err);
+  });
 });
 
 module.exports = router;

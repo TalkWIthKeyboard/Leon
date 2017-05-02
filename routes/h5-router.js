@@ -5,11 +5,7 @@
 let router = require('express').Router();
 let apiServer = require('./../server/apiServer');
 let promise = require('./../model/promise');
-let response = require('./../builder/responseBuilder');
-let _ = require('underscore');
 let conf = require('./../model/conf');
-let util = require('./../server/utilServer');
-let model = require('./../model/create');
 
 // 个人的健康页面
 router.get('/healthy/my/chart', (req, res, next) => {
@@ -36,6 +32,12 @@ router.get('/healthy/home/chart', (req, res, next) => {
     });
   else
     next({status: 400, msg: 'No token !'});
+});
+
+
+// 测试页面
+router.get('/test', (req, res, next) => {
+  res.render('upload');
 });
 
 
