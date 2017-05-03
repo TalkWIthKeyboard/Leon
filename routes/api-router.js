@@ -43,6 +43,22 @@ router.post('/home', (req, res, next) => {
     });
 });
 
+// 创建相册卡片
+router.post('/photo', (req, res, next) => {
+  apiServer.createPhoto(req, res, next);
+});
+
+// TODO 待测试
+// 创建事件
+router.post('/event', (req, res, next) => {
+  apiServer.createEvent(req, res, next);
+});
+
+// 加入家庭
+router.put('/user/home', (req, res, next) => {
+  apiServer.joinHome(req, res, next);
+});
+
 // 获取家庭健康数据
 router.get('/healthy', (req, res, next) => {
   util.getUserByTokenPromise(req)

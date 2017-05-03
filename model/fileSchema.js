@@ -5,14 +5,14 @@
 let mongoose = require('mongoose');
 let conf = require('./conf');
 
-let EventSchema = new mongoose.Schema({
+let FileSchema = new mongoose.Schema({
   fileName: String,
   hashName: String
 });
 
-conf.addFn(EventSchema, [
+conf.addFn(FileSchema, [
   'findByCondition',
   'deleteById'
 ]);
 
-module.exports = EventSchema;
+module.exports = FileSchema;

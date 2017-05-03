@@ -6,6 +6,7 @@ let pub = {};
 let jwt = require('jsonwebtoken');
 let promise = require('./../model/promise');
 let response = require('./../builder/responseBuilder');
+let conf = require('./../model/conf');
 let model = require('./../model/create');
 let util = require('./../server/utilServer');
 let check = require('./../server/requestServer');
@@ -34,8 +35,7 @@ let saveObj = (res, body, model, cb, next) => {
   let _model = new model(data);
   _model.save((err) => {
     if (err) return next(err);
-    if (! cb) response.resSuccessBuilder(res, _model);
-    else cb(_model);
+    !cb ? response.resSuccessBuilder(res, _model) : cb(_model);
   });
 };
 
@@ -277,6 +277,85 @@ pub.receiveHealthy = (req, res, next) => {
   }, (err) => {
     next({status: 400, msg: err});
   });
+};
+
+
+/**
+ * 创建相册卡片
+ * @param req
+ * @param res
+ * @param next
+ */
+pub.createPhoto = (req, res, next) => {
+  check.checkBody(req.body, null, ['photo', 'content'], (body) => {
+    util.getUserByTokenPromise(req)
+      .then((data) => {
+        body.home = data.home;
+        saveObj(res, body, model['photo'], null, next);
+      })
+  }, (err) => {
+    next({status: 400, msg: err});
+  })
+};
+
+
+/**
+ * 创建事件
+ * @param req
+ * @param res
+ * @param next
+ */
+pub.createEvent = (req, res, next) => {
+  check.checkBody(req.body, null, ['getter', 'content', 'remindTime', 'urgent', 'sound'], (body) => {
+    let promiseList = [
+      util.getUserByTokenPromise(req),
+      promise.findByConditionPromise(model['user'], '_id', body.getter, null)
+    ];
+    Promise.all(promiseList).then((result) => {
+      let getter = result[0];
+      let sender = result[1];
+      if (getter.home !== sender.home) return next({status: 400, msg: 'The sender and getter is not in one home!'});
+      body.sender = sender._id;
+      saveObj(res, body, model['event'], null, next);
+    });
+  }, (err) => {
+    next({status: 400, msg: err});
+  })
+};
+
+
+/**
+ * 加入家庭
+ * @param req
+ * @param res
+ * @param next
+ */
+pub.joinHome = (req, res, next) => {
+  check.checkBody(req.body, null, ['family'], (body) => {
+    let promiseList = [
+      util.getUserByTokenPromise(req),
+      promise.findByConditionPromise(model['user'], '_id', body.family, null)
+    ];
+    Promise.all(promiseList).then((result) => {
+      let me = result[0];
+      let family = result[1];
+      me.home = family.home;
+      me.save((err) => {
+        if (err) return next({status: 400, msg: err});
+        promise.findByConditionPromise(model['home'], '_id', me.home, null)
+          .then((data) => {
+            data.family.push(me._id);
+            data.save((_err) => {
+              _err
+                ? next({status: 400, msg: err})
+                : response.resSuccessBuilder(res, 'success');
+            })
+          })
+      });
+    }).catch((err) => {
+      next({status: 400, msg: err});
+    })
+  })
 };
 
 

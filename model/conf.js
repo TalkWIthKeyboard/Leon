@@ -108,10 +108,11 @@ pub.hooksOp = {
  * @type {{Event: string, Home: string, Token: string, User: string}}
  */
 pub.populateObj = {
-  Event: 'setter getter',
+  Event: 'setter getter sound',
   Home: 'family familyWish',
   Token: 'user',
-  User: 'list'
+  User: 'list',
+  Photo: 'photo'
 };
 
 // 自动添加方法
