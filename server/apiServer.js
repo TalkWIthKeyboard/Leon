@@ -267,6 +267,9 @@ pub.receiveHealthy = (req, res, next) => {
   check.checkBody(req.body, model['healthy'], null, (body) => {
     util.getUserByTokenPromise(req)
       .then((data) => {
+        // 每隔10分钟，客户端会传递一次数据到服务器
+        // 服务器对每个用户维护一个步数个数为100的数组，表示这一天内用户步数变化情况（按照时间排序，最近时间在前）
+        // 心跳个数为100的数组，表示最近几小时内用户心跳变化情况（按照时间排序，最近时间在前）
         data.healthy.step = util.healthyQueue(body.step, data.healthy.step);
         data.healthy.heartbeat = util.healthyQueue(body.heartbeat, data.healthy.heartbeat);
         data.save((err, _data) => {

@@ -23,7 +23,7 @@ router.post('/user', (req, res, next) => {
   apiServer.create(req, res, model['user'], ['username', 'account', 'password', 'role'], 'account', null, next);
 });
 
-// 创建健康
+// 添加健康
 router.post('/healthy', (req, res, next) => {
   apiServer.receiveHealthy(req, res, next);
 });

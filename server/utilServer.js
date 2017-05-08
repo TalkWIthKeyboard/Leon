@@ -34,7 +34,7 @@ pub.getUserByTokenPromise = (req) => {
  * @param healthy 原始健康数据
  */
 pub.healthyQueue = (healthyList, healthy = []) => {
-  const num = 48;
+  const num = 100;
   let len = healthyList.length + healthy.length;
   healthyList.sort((a, b) => {
     return a.date === b.date ? 0 : a.num > b.num ? - 1 : 1;

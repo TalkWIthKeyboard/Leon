@@ -5,7 +5,11 @@ $(document).ready(function () {
   /**
    * 上传组件逻辑
    */
-  $('#inputFile').on('change', function () {
+  $('#btn-img').click(function () {
+    $('#input-file').click();
+  });
+
+  $('#input-file').on('change', function () {
     var file = this.files[0];
     uploadingImg(file);
   });
@@ -14,7 +18,6 @@ $(document).ready(function () {
     var form = new FormData();
     form.append('file', f);
     form.append('name', f.name);
-    // console.log(f.name);
     $.ajax({
       url: '/api/file',
       type: 'POST',
